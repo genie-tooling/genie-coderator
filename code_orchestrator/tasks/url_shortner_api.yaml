@@ -1,0 +1,26 @@
+# Task 2: Basic URL Shortener API
+
+# Required: A description of the task for the LLM
+description: "Create a simple Python web API using FastAPI that shortens URLs and redirects shortened URLs to their original destination. Use an in-memory dictionary for storage (no database needed for this simple version)."
+
+# Optional: A human-readable summary (displayed to user, not sent to LLM)
+human_summary: "Building a very basic URL shortener web API (in-memory)."
+
+# Optional: Target language (defaults to python if omitted or overridden by CLI)
+language: python
+
+# Optional: Supporting documents/context to provide to the LLM
+supporting_docs: |
+  API Endpoints:
+  1. POST `/shorten`
+     - Request Body: JSON object like `{\"url\": \"<original_url>\"}`
+     - Response Body: JSON object like `{\"short_url\": \"<base_url>/<short_code>\"}`
+     - Logic: Generate a unique short code (e.g., random alphanumeric string of length 6), store the mapping `{short_code: original_url}` in a dictionary, return the full short URL. Handle potential invalid input URL formats.
+  2. GET `/{short_code}`
+     - Path Parameter: `short_code` (string)
+     - Response: HTTP 302 Redirect to the original URL stored in the dictionary.
+     - Logic: Look up the `short_code` in the dictionary. If found, redirect. If not found, return HTTP 404 Not Found error.
+
+  Framework: Use FastAPI.
+  Storage: Use a simple Python dictionary for storing mappings. Data will be lost on restart.
+  Base URL: Assume the service runs at `http://127.0.0.1:8000` for constructing the `short_url`.

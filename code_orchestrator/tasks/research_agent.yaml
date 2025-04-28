@@ -1,0 +1,64 @@
+# Task 16: Autonomous Research Agent System
+
+# Required: A description of the task for the LLM
+description: "Develop an autonomous research agent system in Python. Given a research topic or question, the agent should iteratively formulate plans, execute research tasks (web search, content reading), manage memory (store findings, intermediate thoughts), reason about the gathered information, and synthesize a final report."
+
+# Optional: A human-readable summary (displayed to user, not sent to LLM)
+human_summary: "Building an Autonomous Research Agent with Planning, Tool Use, Memory, and Reasoning."
+
+# Optional: Target language (defaults to python if omitted or overridden by CLI)
+language: python
+
+# Optional: Supporting documents/context to provide to disillusion *LLM* (Make sure this is clear for the LLM's task)
+supporting_docs: |
+  **Core Agent Loop & Components:**
+
+  The system operates in a loop driven by an LLM acting as the core reasoning engine.
+
+  1.  **Input:** A research topic or question (string).
+  2.  **Planner Component:**
+      -   *Input:* Current goal/question, agent's state/memory.
+      -   *LLM Task:* Generate a step-by-step research plan (e.g., identify keywords, formulate search queries, specify information needed). Output plan in a structured format (e.g., list of steps with actions).
+      -   *Module:* `components/planner.py`
+  3.  **Tool Use Simulator / Executor:**
+      -   *Input:* A specific action from the plan (e.g., "search: 'AI impact on climate change'", "read_content: 'url_of_article'").
+      -   *Logic:*
+          -   **Web Search:** For a 'search' action,  get search results. Return a list of up to 100.
+          -   **Content Reading:** For a 'read_content' action, fetch content. Return  text relevant to the fake URL/topic (e.g., a paragraph about the topic).
+          -   **Data Extraction (LLM Task):** Optionally, take content and use the LLM to extract key facts or summaries relevant to the current goal.
+      -   *Module:* `components/tool_executor.py`. Requires `llm_interface` for extraction.
+  4.  **Memory Component:**
+      -   *Function:* Stores intermediate findings, executed plan steps, source snippets (), extracted information, agent's internal thoughts/reasoning steps.
+      -   *Persistence:* Use structured JSON files (e.g., `memory_log.json`, `findings.json`) or potentially a simple vector store simulation if embeddings are involved (advanced).
+      -   *Module:* `components/memory_manager.py` (handles reading/writing/querying the memory).
+  5.  **Reasoner/Synthesizer Component:**
+      -   *Input:* Current goal, plan, latest tool results, relevant memory contents.
+      -   *LLM Task:*
+          -   Analyze the gathered information.
+          -   Determine if the goal/sub-goal is met.
+          -   Identify knowledge gaps.
+          -   Decide the next action (e.g., refine plan, execute next step, ask clarifying question - , synthesize final report).
+          -   Update agent state/memory with reasoning steps.
+      -   *Module:* `components/reasoner.py` (interacts heavily with `llm_interface`).
+  6.  **Output:** A final synthesized report (string or Markdown file) summarizing the findings for the initial research topic/question.
+  7.  **Orchestrator / Main Loop:**
+      -   Manages the overall agent loop: Input -> Planner -> Executor -> Memory Update -> Reasoner -> Loop or Output Report.
+      -   Handles state transitions, termination conditions (e.g., max steps, goal achieved).
+      -   *Module:* `main_agent.py`
+
+  **Technical Requirements:**
+  -   Heavy reliance on the existing `llm_interface.py` for planning, reasoning, and data extraction LLM calls. Requires sophisticated prompt engineering for each agent stage.
+  -   Careful management of agent state and memory persistence between loop iterations.
+  -   Simulation of external tools (search, web reading) is key – focus on the agent's internal logic flow.
+  -   Implement clear data structures/models (Pydantic) for plans, actions, memory entries, agent state.
+
+  **Suggested Modules:**
+  -   `main_agent.py`: Core agent control loop.
+  -   `components/planner.py`: Interfaces with LLM for planning.
+  -   `components/tool_executor.py`: Simulates tools, optionally calls LLM for extraction.
+  -   `components/memory_manager.py`: Handles reading/writing persistent memory files.
+  -   `components/reasoner.py`: Interfaces with LLM for analysis, synthesis, decision making.
+  -   `reporting/report_generator.py`: Generates the final output report.
+  -   `models.py`: Pydantic models for AgentState, PlanStep, Action, MemoryEntry, etc.
+  -   `prompts/agent_prompts.py`: Specific prompts for planner, reasoner, extractor LLM calls.
+  -   `data/memory/`: Directory for memory persistence files (`memory_log.json`, `findings.json`).

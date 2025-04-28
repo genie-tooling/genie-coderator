@@ -1,0 +1,52 @@
+# Task 13: Image Captioning Service with Caching
+
+# Required: A description of the task for the LLM
+description: "Create a Python service (API using FastAPI) that accepts an image URL, downloads the image, generates a descriptive caption using a pre-trained machine learning model (e.g., from Hugging Face Transformers library), and returns the caption. Implement a simple file-based cache to avoid re-processing the same image URL multiple times. Include robust error handling for image fetching and processing."
+
+# Optional: A human-readable summary (displayed to user, not sent to LLM)
+human_summary: "Building an Image Captioning API using a pre-trained model and caching."
+
+# Optional: Target language (defaults to python if omitted or overridden by CLI)
+language: python
+
+# Optional: Supporting documents/context to provide to the LLM
+supporting_docs: |
+  Core Functionality:
+  1.  **API Endpoint (`/caption`)**:
+      -   Method: POST
+      -   Request Body: `{\"image_url\": \"string\"}`
+      -   Response Body: `{\"caption\": \"string\"}` or error message.
+      -   Logic:
+          a. Check cache (`caption_cache.json`) using a hash of the `image_url`. If found, return cached caption.
+          b. If not cached:
+             i. Download image from `image_url`. Handle download errors (invalid URL, network issues, non-image content type). Use `requests` library.
+             ii. Process the downloaded image into the format required by the captioning model. Use `Pillow` (PIL) library for image handling. Handle image processing errors (corrupt image, unsupported format).
+             iii. Pass processed image to the captioning model to generate the caption. Use a pre-trained model (e.g., 'nlpconnect/vit-gpt2-image-captioning' from Hugging Face `transformers`). Handle model inference errors.
+             iv. Store the `(image_url_hash, generated_caption)` pair in the cache file (`caption_cache.json`).
+             v. Return the generated caption.
+  2.  **Image Fetching/Processing**:
+      -   Safely download image data from a URL. Validate content type.
+      -   Use Pillow to open and potentially resize/preprocess the image according to model requirements.
+  3.  **Captioning Model Inference**:
+      -   Load a specific pre-trained image captioning model and its associated processor/tokenizer from the `transformers` library.
+      -   Implement the function to perform inference given a processed image.
+  4.  **Caching**:
+      -   Use a simple JSON file (`caption_cache.json`) storing a dictionary: `{<image_url_hash>: <caption_string>}`.
+      -   Implement functions to check, read, and write to this cache file. Use a suitable hashing algorithm (e.g., SHA256) for the URL.
+
+  Technical Requirements:
+  -   Use FastAPI for the API.
+  -   Use `requests` for downloading images.
+  -   Use `Pillow` (PIL fork) for image processing.
+  -   Use `transformers` library (from Hugging Face) for loading and using the pre-trained captioning model. Specify the model name (e.g., `nlpconnect/vit-gpt2-image-captioning`). **Note:** This implies significant dependencies.
+  -   Implement robust error handling for all external interactions (network, file I/O, model inference). Return appropriate HTTP error codes (e.g., 400 for bad URL, 500 for internal errors).
+
+  Suggested Modules:
+  -   `main_api.py`: FastAPI app setup.
+  -   `routers/captioning.py`: Defines the `/caption` endpoint.
+  -   `services/caption_service.py`: Orchestrates the process: cache check, image fetching, processing, inference, caching update.
+  -   `utils/image_processor.py`: Handles downloading and pre-processing images using `requests` and `Pillow`.
+  -   `ml/caption_model.py`: Loads the `transformers` model/processor and provides the inference function.
+  -   `cache/file_cache.py`: Implements reading/writing the `caption_cache.json` file and URL hashing.
+  -   `models.py`: Pydantic models for API request/response.
+  -   `data/caption_cache.json`: Cache file.

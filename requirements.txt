@@ -1,0 +1,8 @@
+google-generativeai
+PyYAML
+pydantic
+pydantic-settings
+tiktoken
+pytest
+python-dotenv
+docker
