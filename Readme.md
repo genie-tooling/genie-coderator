@@ -1,4 +1,4 @@
-# Genie Code-erator (Code Orchestrator)
+# Genie Code-er-ator (Code Generation Orchestrator)
 
 This project implements a multi-stage AI pipeline for automated code generation using Google's Gemini models. It follows a structured approach involving requirements analysis, design, planning, phased code generation with debugging, automated testing (for Python), and documentation generation.
 
