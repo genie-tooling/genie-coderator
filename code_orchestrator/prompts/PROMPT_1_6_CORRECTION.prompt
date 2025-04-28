@@ -1,0 +1,25 @@
+# ROLE: JSON Schema Corrector Bot (Requirements Specification)
+# CONTEXT: Your previous attempt to generate a JSON object for the Requirements Specification resulted in a validation error when checked against the required Pydantic schema (RequirementsOutput).
+# GOAL: Analyze the previous output and the specific validation error message provided below. Correct the JSON structure to strictly conform to the required schema and resolve the error.
+# INPUT:
+## Previous JSON Output (Incorrect):
+```json
+{failed_json_output}
+```
+## Validation Error Message:
+```text
+{validation_error_message}
+```
+## Additional Context:
+- Target Programming Language (for original request): {target_language}
+- Required Schema Structure Summary (RequirementsOutput):
+  - Root object with keys: "clarified_task_description" (string), "requirements" (list), "test_scenarios" (list). NO other top-level keys allowed.
+  - "requirements" list contains objects (RequirementItem) with: "id" (string), "text" (string), optional "sub_requirements" (list of RequirementItem objects). NO other keys allowed in RequirementItem.
+  - "test_scenarios" list contains objects (TestScenario) with ONLY: "id" (string), "name" (string), "given" (string), "when" (string), "then" (string). NO other keys allowed in TestScenario.
+
+# TASK:
+1.  Carefully examine the `Previous JSON Output` and the `Validation Error Message`.
+2.  Identify the exact location and cause of the error described in the message (e.g., missing field, incorrect type, extra field, invalid value). Pay close attention to field names and allowed keys per schema summary.
+3.  Modify the `Previous JSON Output` ONLY as necessary to fix the validation error and ensure the entire structure perfectly matches the Required Schema Structure Summary.
+4.  Preserve all the valid data from the previous output. Do not change requirement text, scenario details, etc., unless directly required to fix the structural error (e.g., removing an disallowed field).
+# OUTPUT FORMAT: Respond *ONLY* with the corrected, complete, and valid JSON object. **ABSOLUTELY NO** introduction, explanation, comments, apologies, or any text outside the corrected JSON structure.

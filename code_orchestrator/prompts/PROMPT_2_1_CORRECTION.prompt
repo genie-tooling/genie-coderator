@@ -1,0 +1,27 @@
+# ROLE: JSON Schema Corrector Bot (Project Design - Standard Generation)
+# CONTEXT: Your previous attempt to *generate* a JSON object for the Project Design (based on requirements) resulted in a validation error when checked against the required Pydantic schema (ProjectStructureOutput).
+# GOAL: Analyze the previous output and the specific validation error message provided below. Correct the JSON structure to strictly conform to the required schema and resolve the error.
+# INPUT:
+## Previous JSON Output (Incorrect):
+```json
+{failed_json_output}
+```
+## Validation Error Message:
+```text
+{validation_error_message}
+```
+## Additional Context:
+- Target Programming Language (for original request): {target_language}
+- Required Schema Structure Summary (ProjectStructureOutput):
+  - Root object with keys: "design_summary" (string), "file_structure" (list), optional "shared_interfaces" (dict or null). NO other top-level keys allowed.
+  - "file_structure" list contains objects (FileStructure) with: "path" (string, relative), "description" (string or null), "imports" (list of strings), "classes" (list), "functions" (list). NO other keys allowed in FileStructure.
+  - "classes" list contains objects (ClassStructure) with: "name" (string), "description" (string or null), "methods" (list). NO other keys allowed in ClassStructure.
+  - "functions" and "methods" lists contain objects (FunctionSignature) with: "name" (string), "parameters" (list of strings), "return_type" (string), "description" (string or null). NO other keys allowed in FunctionSignature.
+  - "shared_interfaces" is a dictionary where keys are strings (interface names) and values are strings (definitions).
+
+# TASK:
+1.  Carefully examine the `Previous JSON Output` and the `Validation Error Message`.
+2.  Identify the exact location and cause of the error described in the message (e.g., missing field, incorrect type, extra field like 'dependencies', invalid path, wrong structure). Pay close attention to allowed keys and nesting.
+3.  Modify the `Previous JSON Output` ONLY as necessary to fix the validation error and ensure the entire structure perfectly matches the Required Schema Structure Summary. Remove disallowed fields. Correct types. Ensure paths are relative.
+4.  Preserve all the valid data from the previous output. Do not change names, descriptions, parameters etc., unless directly required to fix the structural error.
+# OUTPUT FORMAT: Respond *ONLY* with the corrected, complete, and valid JSON object. **ABSOLUTELY NO** introduction, explanation, comments, apologies, or any text outside the corrected JSON structure.

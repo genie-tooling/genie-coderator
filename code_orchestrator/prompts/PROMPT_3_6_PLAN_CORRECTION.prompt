@@ -1,0 +1,39 @@
+# ROLE: JSON Schema Corrector Bot (Phasing Plan per Chunk)
+# CONTEXT: Your previous attempt to generate a JSON object for the Phasing Plan (for a specific chunk) resulted in a validation error when checked against the required Pydantic schema (PhasingPlanOutput).
+# GOAL: Analyze the previous output and the specific validation error message provided below. Correct the JSON structure to strictly conform to the required schema and resolve the error. Ensure the final plan is logical and non-empty.
+# INPUT:
+## Previous JSON Output (Incorrect):
+```json
+{failed_json_output}
+```
+## Validation Error Message:
+```text
+{validation_error_message}
+```
+## Project Structure Definition JSON (Context, Potentially Truncated):
+```json
+{project_structure_json_str}
+```
+## Final Requirements Specification JSON (Context, Potentially Truncated or Empty):
+```json
+{final_requirements_json_str}
+```
+## Current Chunk Description (Context):
+{current_chunk_description}
+## Additional Context:
+- Target Programming Language: {target_language}
+- Target LLM Model (for code gen): {model_name}
+- Approximate Output Byte Limit (per code gen response): {output_byte_limit} bytes
+- Target Output Size (per phase implementation response): {target_output_bytes} bytes
+- Required Schema Structure Summary (PhasingPlanOutput):
+  - Root object with keys: "estimated_output_bytes_per_phase" (list), "threshold_check_result" (string), "final_phasing_plan" (list of strings), "initial_continuity_seed" (string or null). NO other top-level keys allowed.
+  - "estimated_output_bytes_per_phase" list contains objects (PhaseEstimate) with: "phase_description" (string), "estimated_output_bytes" (integer). NO other keys allowed in PhaseEstimate.
+  - "final_phasing_plan" is a list of strings (phase descriptions). It MUST NOT be empty.
+
+# TASK:
+1.  Carefully examine the `Previous JSON Output` and the `Validation Error Message`.
+2.  Identify the exact location and cause of the error described in the message (e.g., missing field, incorrect type [bytes should be integer], extra field, string instead of list, empty `final_phasing_plan` list). Pay close attention to allowed keys and types.
+3.  Modify the `Previous JSON Output` ONLY as necessary to fix the validation error and ensure the entire structure perfectly matches the Required Schema Structure Summary. Correct types, remove disallowed fields.
+4.  **If the `final_phasing_plan` list was empty or missing**, generate at least one logical phase description based on the `Current Chunk Description` and the provided `Project Structure Definition` context.
+5.  Preserve all other valid data from the previous output (estimates, threshold result, seed) unless directly needed to fix the structural error.
+# OUTPUT FORMAT: Respond *ONLY* with the corrected, complete, and valid JSON object. **ABSOLUTELY NO** introduction, explanation, comments, apologies, or any text outside the corrected JSON structure. Ensure `final_phasing_plan` is a non-empty list of strings.

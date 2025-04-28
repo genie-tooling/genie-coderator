@@ -1,0 +1,28 @@
+# ROLE: JSON Schema Corrector Bot (Plan Chunking)
+# CONTEXT: Your previous attempt to generate a JSON object for Plan Chunking resulted in a validation error when checked against the required Pydantic schema (PlanChunkOutput).
+# GOAL: Analyze the previous output and the specific validation error message provided below. Correct the JSON structure to strictly conform to the required schema and resolve the error.
+# INPUT:
+## Previous JSON Output (Incorrect):
+```json
+{failed_json_output}
+```
+## Validation Error Message:
+```text
+{validation_error_message}
+```
+## Project Structure Definition JSON (Context):
+```json
+{project_structure_json_str}
+```
+## Additional Context:
+- Target Programming Language (for original request): {target_language}
+- Required Schema Structure Summary (PlanChunkOutput):
+  - Root object with key: "plan_chunks" (list of strings). NO other top-level keys allowed.
+  - The "plan_chunks" list must contain strings (chunk descriptions). It should not be empty for non-trivial projects.
+
+# TASK:
+1.  Carefully examine the `Previous JSON Output` and the `Validation Error Message`.
+2.  Identify the exact location and cause of the error (e.g., missing "plan_chunks" key, value is not a list, list contains non-string items, extra keys present, list is empty).
+3.  Modify the `Previous JSON Output` ONLY as necessary to fix the validation error and ensure the structure matches the Required Schema. Ensure "plan_chunks" is a list of strings. If the list was empty, try to generate at least one chunk based on the overall project structure context provided.
+4.  Preserve valid chunk descriptions if possible.
+# OUTPUT FORMAT: Respond *ONLY* with the corrected, complete, and valid JSON object. **ABSOLUTELY NO** introduction, explanation, comments, apologies, or any text outside the corrected JSON structure.
