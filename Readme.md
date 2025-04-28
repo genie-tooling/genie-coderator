@@ -35,7 +35,11 @@ This project implements a multi-stage AI pipeline for automated code generation 
 
 3.  **Run Orchestrator:**
     ```bash
-    python -m code_orchestrator [OPTIONS]
+     python -m code_orchestrator.orchestrator --help
+    ```
+    * To run one of the examples:
+    ```bash
+    python -m code_orchestrator.orchestrator --skip-testing --task-file example_tasks/cli_fact_calc.yaml
     ```
 
     **Common Options:**
@@ -85,7 +89,7 @@ If the orchestrator is interrupted (e.g., Ctrl+C, system crash), you can attempt
         * `phase_1c_planning.py`
         * `phase_2_build.py`
         * `phase_3_docs.py`
-* `tasks/`: Example task definition YAML files.
+* `example_tasks/`: Example task definition YAML files.
 * `docs/`: Generated documentation output (if requested).
 * `.env`: Stores the Gemini API key (create this file).
 * `sandbox/`: Default output directory for generated code and artifacts (created during run).
