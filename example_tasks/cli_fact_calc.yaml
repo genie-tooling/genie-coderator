@@ -1,0 +1,20 @@
+# Example task definition for the Gemini Code Orchestrator
+# Required: A description of the task for the LLM
+description: "Create a Python command-line tool that calculates the factorial of a non-negative integer provided as an argument."
+
+# Optional: A human-readable summary (displayed to user, not sent to LLM)
+human_summary: "Building a simple factorial calculator CLI tool."
+
+# Optional: Target language (defaults to python if omitted or overridden by CLI)
+language: python
+
+# Optional: Supporting documents/context to provide to the LLM
+supporting_docs: |
+  Factorial definition:
+  - The factorial of a non-negative integer n, denoted by n!, is the product of all positive integers less than or equal to n.
+  - 0! is defined as 1.
+  - Example: 5! = 5 * 4 * 3 * 2 * 1 = 120
+  CLI Requirements:
+  - Should accept one integer argument.
+  - Should print an error message for negative inputs or non-integer inputs.
+  - Should print the calculated factorial for valid inputs.
